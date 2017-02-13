@@ -17,4 +17,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+//Route::get('/home', 'HomeController@index');
+
+
+/* Data Client Model */
+Route::get('/data_clients/{id?}', 'DataClientController@index');
+Route::post('/data_clients', 'DataClientController@create');
+Route::post('/data_clients/{id}', 'DataClientController@update');
+Route::delete('/data_clients/{id}', 'DataClientController@delete');
