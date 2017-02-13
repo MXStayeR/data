@@ -47,6 +47,17 @@
                     </select>
                 </td>
             </tr>
+            <tr>
+                <td>Security List</td>
+                <td>
+                    <textarea name="security">
+                        @foreach($security as $row)
+                            {{$row->ip}}
+                        @endforeach
+                    </textarea>
+
+                </td>
+            </tr>
         </table>
         <button type="submit">Save</button>
 

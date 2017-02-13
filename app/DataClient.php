@@ -7,16 +7,32 @@ use Illuminate\Support\Facades\Redis;
 
 class DataClient extends Model
 {
+    const ON = 1;
+    const OFF = 0;
+
     protected $table = 'data_clients';
     public $primaryKey = 'id';
     public $timestamps = true;
 
+    
+    public function security()
+    {
+        return $this->hasMany("App\\Client".ucfirst(strtolower($this->security_type))."Allow", 'client_id', 'id');
 
-    /**
-     * @param array $options
-     * @return integer
-     */
-
+//        switch($this->security_type)
+//        {
+//            case "ip":
+//                return  $this->hasMany("App\\ClientIpAllow", 'client_id', 'id');
+//            case "referrer":
+//                return  $this->hasMany("App\\ClientReferrerAllow", 'client_id', 'id');
+//            case "user_agent":
+//                return  $this->hasMany("App\\ClientUserAgentAllow", 'client_id', 'id');
+//            default:
+//                return;
+//        }
+    }
+    
+    
     public function save(array $options = [])
     {
         Redis::hMSet($this->table."::".$this->token, [
@@ -29,11 +45,6 @@ class DataClient extends Model
 
         return parent::save($options);
     }
-
-    /**
-     * @return mixed
-     * @throws \Exception
-     */
 
     public function delete()
     {
