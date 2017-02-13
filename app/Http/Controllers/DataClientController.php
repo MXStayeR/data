@@ -39,6 +39,10 @@ class DataClientController extends Controller
     public function update(Request $r)
     {
         $client = DataClient::find($r->id);
+
+        $client->security()->delete();
+        Redis::del("client::".$client->id."::".$client->security_type."::allow");
+
         $client->name = $r->name;
         if(!empty($r->new_hash))
             $client->token = md5(time());
@@ -47,9 +51,6 @@ class DataClientController extends Controller
         $client->contact_email = $r->contact_email;
         $client->contact_phone = $r->contact_phone;
         $client->security_type = $r->security_type;
-
-        $client->security()->delete();
-        Redis::del("client::".$client->id."::".$client->security_type."::allow");
 
         if(trim($r->security) != "")
         {

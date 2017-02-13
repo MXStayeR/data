@@ -7,6 +7,7 @@ laravel new <project_name>
 OR
 
 composer create-project laravel/laravel <project_name> 5.4.*
+
 2) Create and configure Databases (MySQL + Redis)
 3) Configurate: .env, config/app.php, config/database.php
 4) Make Auth module:

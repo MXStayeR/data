@@ -17,19 +17,8 @@ class DataClient extends Model
     
     public function security()
     {
-        return $this->hasMany("App\\Client".ucfirst(strtolower($this->security_type))."Allow", 'client_id', 'id');
+        return $this->hasMany("App\\Client" . ucfirst(strtolower($this->security_type)) . "Allow", 'client_id', 'id');
 
-//        switch($this->security_type)
-//        {
-//            case "ip":
-//                return  $this->hasMany("App\\ClientIpAllow", 'client_id', 'id');
-//            case "referrer":
-//                return  $this->hasMany("App\\ClientReferrerAllow", 'client_id', 'id');
-//            case "user_agent":
-//                return  $this->hasMany("App\\ClientUserAgentAllow", 'client_id', 'id');
-//            default:
-//                return;
-//        }
     }
     
     

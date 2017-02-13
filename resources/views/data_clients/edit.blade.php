@@ -43,7 +43,7 @@
                     <select name="security_type" >
                         <option value="ip" @if( $client->security_type == "ip" ) selected @endif >IP Addresses</option>
                         <option value="referrer" @if( $client->security_type == "referrer" ) selected @endif >Referrers</option>
-                        <option value="user_agent" @if( $client->security_type == "user_agent" ) selected @endif >User Agents</option>
+                        {{--<option value="user_agent" @if( $client->security_type == "user_agent" ) selected @endif >User Agents</option>--}}
                     </select>
                 </td>
             </tr>
@@ -51,8 +51,9 @@
                 <td>Security List</td>
                 <td>
                     <textarea name="security">
+                        @php $type = $client->security_type; @endphp
                         @foreach($security as $row)
-                            {{$row->ip}}
+                            {{$row->$type}}
                         @endforeach
                     </textarea>
 
