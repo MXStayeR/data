@@ -7,13 +7,13 @@ laravel new <project_name>
 OR
 
 composer create-project laravel/laravel <project_name> 5.4.*
-2) Create and configure Databases
+2) Create and configure Databases (MySQL + Redis)
 3) Configurate: .env, config/app.php, config/database.php
 4) Make Auth module:
 php artisan make:auth   - Makes controllers and views for auth module
 php artisan migrate     - Makes 1-st migration to create users, password_resets and migrations tables
 
-5) 
+5) composer require predis/predis - Include predis module to make models copies in Redis DB
 
 
 
