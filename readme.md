@@ -15,6 +15,13 @@ php artisan make:auth   - Makes controllers and views for auth module
 php artisan migrate     - Makes 1-st migration to create users, password_resets and migrations tables
 
 5) composer require predis/predis - Include predis module to make models copies in Redis DB
+6)   Installing an Twitter Bootstrap (only in development!!!):
+* composer require twbs/bootstrap - Include Bootstrap CSS/JS library
+* add to composer.json at "post-update-cmd" next lines:
+    "ln -sf vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/css/",
+    "ln -sf vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css public/css/",
+    "ln -sf vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/js/"
+* composer update
 
 
 
