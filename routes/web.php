@@ -12,16 +12,23 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if( Auth::guest()){
+        return view('layouts/no_auth');
+    } else {
+        return redirect('/clients');
+    }
 });
 
 Auth::routes();
 
 Route::get('/test', 'HomeController@test');
+Route::get('/home', 'HomeController@index');
 
 
 /* Data Client Model */
-Route::get('/data_clients/{id?}', 'DataClientController@index');
-Route::post('/data_clients', 'DataClientController@create');
-Route::post('/data_clients/{id}', 'DataClientController@update');
-Route::delete('/data_clients/{id}', 'DataClientController@delete');
+Route::get('/clients/{id?}', 'DataClientController@index')->name('clients');
+Route::post('/clients', 'DataClientController@create');
+Route::post('/clients/{id}', 'DataClientController@update');
+Route::delete('/clients/{id}', 'DataClientController@delete');
+
+Route::get('/statistics', 'StatisticsController@index')->name('statistics');

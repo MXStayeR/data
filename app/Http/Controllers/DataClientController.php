@@ -14,15 +14,18 @@ class DataClientController extends Controller
     {
         if(empty($id))
         {
-            return view('data_clients/list')->with('data_clients', DataClient::all());
+            return view('clients/list')
+                ->with('section', "clients")
+                ->with('data_clients', DataClient::all());
         }
         else
         {
             $client = DataClient::find($id);
 
-            return view('data_clients/edit')
-                    ->with('client', $client)
-                    ->with('security', $client->security);
+            return view('clients/edit')
+                ->with('section', "clients")
+                ->with('client', $client)
+                ->with('security', $client->security);
         }
     }
 
@@ -33,7 +36,7 @@ class DataClientController extends Controller
         $client->status = 0;
         $client->save();
 
-        return redirect("data_clients/".$client->id);
+        return redirect("clients/".$client->id);
     }
 
     public function update(Request $r)
@@ -46,7 +49,7 @@ class DataClientController extends Controller
         $client->name = $r->name;
         if(!empty($r->new_hash))
             $client->token = md5(time());
-        //$client->status = 0;
+        $client->status = ($r->status == DataClient::ON) ? DataClient::ON : DataClient::OFF;
         $client->contact_name = $r->contact_name;
         $client->contact_email = $r->contact_email;
         $client->contact_phone = $r->contact_phone;
@@ -69,7 +72,7 @@ class DataClientController extends Controller
 
         $client->save();
 
-        return redirect("data_clients/".$client->id);
+        return redirect("clients/".$client->id);
     }
 
     public function delete(Request $r)
@@ -78,7 +81,7 @@ class DataClientController extends Controller
         $client->security()->delete();
         $client->delete();
 
-        return redirect("data_clients");
+        return redirect("clients");
     }
 
 }

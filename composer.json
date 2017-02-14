@@ -45,7 +45,11 @@
             "php artisan optimize",
             "cp -f vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/css/",
             "cp -f vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css public/css/",
-            "cp -f vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/js/"
+            "cp -f vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/js/",
+            "mkdir public/fonts",
+            "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2 public/fonts/",
+            "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff public/fonts/",
+            "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf public/fonts/"
         ]
     },
     "config": {
