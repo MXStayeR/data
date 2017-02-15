@@ -1,5 +1,5 @@
-## App Installation
-1) Installation Laravel
+## App Development Steps
+1) Laravel Installation via Composer
 composer global require "laravel/installer"
 sudo ln -s $HOME/.composer/vendor/bin/laravel /usr/local/bin
 laravel new <project_name>
@@ -15,16 +15,22 @@ php artisan make:auth   - Makes controllers and views for auth module
 php artisan migrate     - Makes 1-st migration to create users, password_resets and migrations tables
 
 5) composer require predis/predis - Include predis module to make models copies in Redis DB
-6)   Installing an Twitter Bootstrap (only in development!!!):
+6)   Installing an Twitter Bootstrap (only while development!!! all of packages will be installed from Git main Repo):
 * composer require twbs/bootstrap - Include Bootstrap CSS/JS library
 * add to composer.json at "post-update-cmd" next lines:
     "ln -sf vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/css/",
     "ln -sf vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css public/css/",
-    "ln -sf vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/js/"
+    "ln -sf vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/js/",
+    "mkdir public/fonts",
+    "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2 public/fonts/",
+    "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff public/fonts/",
+    "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf public/fonts/"
 * composer update
 
 
-
+## App Installation
+1) Configure web-server
+2) 
 
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 

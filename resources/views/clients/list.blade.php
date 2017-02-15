@@ -7,7 +7,7 @@
         <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Client Hash</th>
+            <th>Token</th>
             <th>Status</th>
             <th>Create Time</th>
             <th>Change Time</th>

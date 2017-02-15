@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ClientIpAllow;
+use App\ClientDMPAllow;
 use Illuminate\Http\Request;
 use App\DataClient;
+use App\DMP;
 use Illuminate\Support\Facades\Redis;
 
 class DataClientController extends Controller
@@ -25,6 +26,7 @@ class DataClientController extends Controller
             return view('clients/edit')
                 ->with('section', "clients")
                 ->with('client', $client)
+                ->with('dmps', DMP::all())
                 ->with('security', $client->security);
         }
     }
@@ -43,8 +45,13 @@ class DataClientController extends Controller
     {
         $client = DataClient::find($r->id);
 
+        // Remove current security relationed settings
         $client->security()->delete();
         Redis::del("client::".$client->id."::".$client->security_type."::allow");
+
+        // Remove current allowed DMP relationed settings
+        $client->allowedDMPs()->delete();
+        Redis::del("client::".$client->id."::dmp::allow");
 
         $client->name = $r->name;
         if(!empty($r->new_hash))
@@ -55,6 +62,8 @@ class DataClientController extends Controller
         $client->contact_phone = $r->contact_phone;
         $client->security_type = $r->security_type;
 
+
+        // Security elements
         if(trim($r->security) != "")
         {
             $rows = explode("\n", $r->security);
@@ -68,6 +77,17 @@ class DataClientController extends Controller
                 }
                 $client->security()->saveMany($security);
             }
+        }
+
+        //Allowed DMPs
+        if(!empty($r->allowed_dmp) && is_array($r->allowed_dmp))
+        {
+            $allowedDMPobjects = [];
+            foreach($r->allowed_dmp as $dmp_id)
+            {
+                $allowedDMPobjects[] = new ClientDMPAllow(['dmp_id' => $dmp_id]);
+            }
+            $client->allowedDMPs()->saveMany($allowedDMPobjects);
         }
 
         $client->save();

@@ -14,14 +14,19 @@ class DataClient extends Model
     public $primaryKey = 'id';
     public $timestamps = true;
 
-    
+    // Relations:
     public function security()
     {
         return $this->hasMany("App\\Client" . ucfirst(strtolower($this->security_type)) . "Allow", 'client_id', 'id');
+    }
 
+    public function allowedDMPs()
+    {
+        return $this->hasMany("App\\ClientDMPAllow", 'client_id', 'id');
     }
     
-    
+
+    // Redis implementation
     public function save(array $options = [])
     {
         Redis::hMSet($this->table."::".$this->token, [
@@ -39,6 +44,12 @@ class DataClient extends Model
     {
         Redis::del($this->table."::".$this->token);
         return parent::delete();
+    }
+
+    // Helpers
+    public function hasDMP($dmp_id)
+    {
+        return ClientDMPAllow::where('client_id', '=', $this->id)->where("dmp_id", "=", $dmp_id)->first();
     }
 
 
