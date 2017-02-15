@@ -9,13 +9,28 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "predis/predis": "^1.1",
-        "twbs/bootstrap": "^3.3"
+        "twbs/bootstrap": "^3.3",
+        "twbs/datetimepicker": "1.2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.7"
     },
+    "repositories":[
+        {
+            "type":"package",
+            "package":{
+                "name":"twbs/datetimepicker",
+                "version":"1.2.3",
+                "source":{
+                    "type":"git",
+                    "url":"https://github.com/smalot/bootstrap-datetimepicker.git",
+                    "reference":"master"
+                }
+            }
+        }
+    ],
     "autoload": {
         "classmap": [
             "database"
@@ -46,7 +61,11 @@
             "cp -f vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/css/",
             "cp -f vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css public/css/",
             "cp -f vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/js/",
-            "mkdir public/fonts",
+
+            "cp -f vendor/twbs/datetimepicker/js/bootstrap-datetimepicker.min.js public/js/",
+            "cp -f vendor/twbs/datetimepicker/css/bootstrap-datetimepicker.min.css public/css/",
+
+            "mkdir -p public/fonts",
             "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2 public/fonts/",
             "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff public/fonts/",
             "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf public/fonts/"

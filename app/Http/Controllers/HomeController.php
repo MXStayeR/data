@@ -43,16 +43,16 @@ class HomeController extends Controller
 //        //$tax = Taxonomy::where("id", "=", 22)->where("dmp_id", "=", 8)->first();
 //        var_dump(Taxonomy::getDmpTaxonomy(8,20)->text); exit;
 
-        $increments = [
-            "request_count" => 11,
-            "request_unique_count" => 8,
-            "error_request_count" => 1,
-            "response_count" => 2,
-            "empty_response_count" => 7
-        ];
-        Redis::hMSet("client::5::stat::".Statistics::to_days(), $increments);
-        Statistics::aggregateRequests();
-        var_dump(Redis::hGetAll("client::5::stat::".Statistics::to_days()));
+//        $increments = [
+//            "request_count" => 11,
+//            "request_unique_count" => 8,
+//            "error_request_count" => 1,
+//            "response_count" => 2,
+//            "empty_response_count" => 7
+//        ];
+//        Redis::hMSet("client::6::stat::".Statistics::to_days(), $increments);
+//        Statistics::aggregateRequests();
+//        var_dump(Redis::hGetAll("client::6::stat::".Statistics::to_days()));
 
     }
     

@@ -29,7 +29,7 @@ class DataClient extends Model
     // Redis implementation
     public function save(array $options = [])
     {
-        Redis::hMSet($this->table."::".$this->token, [
+        Redis::hMSet("client::".$this->token, [
             'client_id' => $this->id,
             'name' => $this->name,
             'status' => $this->status,
@@ -42,7 +42,8 @@ class DataClient extends Model
 
     public function delete()
     {
-        Redis::del($this->table."::".$this->token);
+        Redis::del("client::".$this->token);
+        Redis::del("client::".$this->id."::dmp::allow");
         return parent::delete();
     }
 

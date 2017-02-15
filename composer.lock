@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9bc176a16b51f5e619131998e5853da5",
-    "content-hash": "0b2ae8369a3d1ae60010bbb7e5a73468",
+    "hash": "50b078fd28ec835964f8f0f4632149a4",
+    "content-hash": "c86a6692b68fb82b2989eac2b138542d",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -238,16 +238,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.11",
+            "version": "v5.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9cee8db07cfac13a3a49d17388c9ced4c52e17ac"
+                "reference": "707f32d32dce58232f7a860e0a1d62caf6f9dbfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9cee8db07cfac13a3a49d17388c9ced4c52e17ac",
-                "reference": "9cee8db07cfac13a3a49d17388c9ced4c52e17ac",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/707f32d32dce58232f7a860e0a1d62caf6f9dbfc",
+                "reference": "707f32d32dce58232f7a860e0a1d62caf6f9dbfc",
                 "shasum": ""
             },
             "require": {
@@ -363,7 +363,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-02-10 19:40:54"
+            "time": "2017-02-15 14:31:32"
         },
         {
             "name": "laravel/tinker",
@@ -1910,6 +1910,16 @@
                 "web"
             ],
             "time": "2016-07-25 15:51:55"
+        },
+        {
+            "name": "twbs/datetimepicker",
+            "version": "1.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smalot/bootstrap-datetimepicker.git",
+                "reference": "master"
+            },
+            "type": "library"
         },
         {
             "name": "vlucas/phpdotenv",

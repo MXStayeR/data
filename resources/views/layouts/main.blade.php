@@ -11,6 +11,8 @@
         <link href="/css/bootstrap.min.css" rel="stylesheet">
         <link href="/css/style.css" rel="stylesheet">
 
+
+
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -33,7 +35,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" href="{{ config('app.url') }}">
                             {{ config('app.name') }}
                         </a>
                     </div>
@@ -42,11 +44,17 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                         @if (!Auth::guest())
-                            <li class="@if( $section == "clients" ) active @endif">
+                            <li class="@if( isset($section) && $section == "clients" ) active @endif">
                                 <a href="{{ route('clients') }}">Clients</a>
                             </li>
-                                <li class="@if( $section == "statistics" ) active @endif">
-                                <a href="{{ route('statistics') }}">Statistics</a>
+                            <li class="dropdown @if( isset($section) && $section == "statistics" ) active @endif">
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Statistics <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('request_statistics') }}">Requests</a></li>
+                                    <li><a href="{{ route('data_statistics') }}">Data</a></li>
+                                </ul>
                             </li>
                             @if(Auth::user()->id == 1)
                                 <li>
@@ -94,9 +102,20 @@
 
         </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     </div>
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>--}}
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script>
+        $('.datepicker').datepicker({
+            format: 'mm/dd/yyyy',
+            startDate: '-3d'
+        });
+    </script>
     </body>
 </html>

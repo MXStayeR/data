@@ -11,7 +11,7 @@ class Statistics
     public static function aggregateData($day_offset = 0)
     {
         $day = self::to_days() + $day_offset;
-        $success = true;
+
         foreach(DataClient::all() as $client)
         {
             $stat = Redis::hGetAll("client::".$client->id."::data::stat::".$day);
@@ -28,7 +28,7 @@ class Statistics
                                         tax_id = :tax_id,
                                         hit = :hit
                                     ON DUPLICATE KEY 
-                                    UPDATE hit = :hit2;";
+                                    UPDATE hit = hit + :hit2;";
                     $params = [
                         "day" => $day,
                         "client_id" => $client->id,
@@ -40,13 +40,13 @@ class Statistics
 
                     if(DB::statement($statement, $params))
                     {
-                        $success = false;
+                        Redis::hIncrBy("client::".$client->id."::data::stat::".$day, $key, ($inc * (-1)));
                     }
                 }
             }
         }
 
-        return $success;
+        return true;
     }
 
     public static function aggregateRequests($day_offset = 0)
@@ -60,10 +60,11 @@ class Statistics
             "empty_response_count",
             "error_response_count",
         ];
+
         foreach(DataClient::all() as $client)
         {
             $stat = Redis::hGetAll("client::".$client->id."::stat::".$day);
-            $success = true;
+
             if(!empty($stat) && is_array($stat))
             {
                 // Create statement string
@@ -75,7 +76,7 @@ class Statistics
 
                 $statement .= "ON DUPLICATE KEY UPDATE ";
                 foreach($increments as $k => $field)
-                    $statement .= " $field = :$field"."U".( $k < (count($increments)-1) ? ", " : ";");
+                    $statement .= " $field = $field + :$field"."U".( $k < (count($increments)-1) ? ", " : ";");
 
                 // Create params array
                 $params = [];
@@ -88,14 +89,16 @@ class Statistics
                 }
 
                 // Execute statement
-                if(!DB::statement($statement, $params))
+                if(DB::statement($statement, $params))
                 {
-                    $success = false;
+                    foreach($increments as $field)
+                        if(isset($stat[$field]))
+                            Redis::hIncrBy("client::".$client->id."::data::stat::".$day, $field, ($stat[$field] * (-1)));
                 }
             }
         }
 
-        return $success;
+        return true;
     }
 
     
@@ -111,5 +114,26 @@ class Statistics
 
         if(!$days) return 0;
         return 719528+$days;
+    }
+
+    public static function from_days ($sql_day = false)
+    {
+        if (!$sql_day)
+        {
+            $time=time();
+        }
+        else
+        {
+            $GMT = (int)date("Z");
+            $days = intval($sql_day) - 719528;
+            $time = $days * 60 * 60 * 24 - $GMT;
+        }
+
+        return date("Y-m-d", $time);
+
+
+
+
+
     }
 }

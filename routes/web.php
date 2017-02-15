@@ -24,11 +24,15 @@ Auth::routes();
 Route::get('/test', 'HomeController@test');
 Route::get('/home', 'HomeController@index');
 
+Route::group(['middleware' => 'auth'], function () {
 
-/* Data Client Model */
-Route::get('/clients/{id?}', 'DataClientController@index')->name('clients');
-Route::post('/clients', 'DataClientController@create');
-Route::post('/clients/{id}', 'DataClientController@update');
-Route::delete('/clients/{id}', 'DataClientController@delete');
+    /* Data Client Model */
+    Route::get('/clients/{id?}', 'DataClientController@index')->name('clients');
+    Route::post('/clients', 'DataClientController@create');
+    Route::post('/clients/{id}', 'DataClientController@update');
+    Route::delete('/clients/{id}', 'DataClientController@delete');
 
-Route::get('/statistics', 'StatisticsController@index')->name('statistics');
+    Route::get('/statistics', 'StatisticsController@requests')->name('request_statistics');
+    Route::get('/statistics/data', 'StatisticsController@data')->name('data_statistics');
+
+});
