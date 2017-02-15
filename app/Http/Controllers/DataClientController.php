@@ -99,6 +99,7 @@ class DataClientController extends Controller
     {
         $client = DataClient::find($r->id);
         $client->security()->delete();
+        $client->allowedDMPs()->delete();
         $client->delete();
 
         return redirect("clients");

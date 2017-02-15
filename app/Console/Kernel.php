@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+
     ];
 
     /**
@@ -26,6 +27,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        
+        $schedule->call(function () {
+            //file_put_contents("/var/www/data/storage/lara_schedule.log", date("Y-m-d H:i:s\n"), FILE_APPEND);
+        })->everyMinute();
     }
 
     /**

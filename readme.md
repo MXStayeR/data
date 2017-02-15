@@ -27,6 +27,10 @@ php artisan migrate     - Makes 1-st migration to create users, password_resets 
     "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf public/fonts/"
 * composer update
 
+7) Create scheduling:
+Add to your crontab next line:
+* * * * * /path/to/php /path/to/project/artisan schedule:run >> /dev/null 2>&1
+
 
 ## App Installation
 1) Configure web-server
