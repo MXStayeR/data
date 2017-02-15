@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Statistics;
 
 class Kernel extends ConsoleKernel
 {
@@ -28,9 +29,23 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         
+        // Поминутная статистика
         $schedule->call(function () {
-            //file_put_contents("/var/www/data/storage/lara_schedule.log", date("Y-m-d H:i:s\n"), FILE_APPEND);
+
+            Statistics::aggregateData();
+            Statistics::aggregateRequests();
+
         })->everyMinute();
+        
+        // Подтягиваем статистику за прошлый день в первый час нового дня
+        $schedule->call(function () {
+
+            Statistics::aggregateData(-1);
+            Statistics::aggregateRequests(-1);
+
+        })->everyTenMinutes()->between('00:00', '01:00');
+
+
     }
 
     /**
