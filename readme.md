@@ -5,11 +5,11 @@
 
     * create directory
     
-    * `git init`
+    * Execute `git init`
     
-    * `git remote add origin https://github.com/MXStayeR/data.git`
+    * Execute `git remote add origin https://github.com/MXStayeR/data.git`
     
-    * `git pull origin master`
+    * Execute `git pull origin master`
     
 5) Execute `composer update` and resolve conflicts, if they are taking place
 
