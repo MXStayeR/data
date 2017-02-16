@@ -12,7 +12,8 @@ class Statistics
     public static function aggregateData($day_offset = 0)
     {
         $sql_day = self::to_days() + $day_offset;
-        $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - $day_offset days"));
+        $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - ".abs($day_offset)." days"));
+
         echo "\nStart Data Aggregating ... \n";
         foreach(DataClient::all() as $client)
         {
@@ -65,7 +66,7 @@ class Statistics
         echo "\nStart Requests Aggregating ... \n";
 
         $sql_day = self::to_days() + $day_offset;
-        $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - $day_offset days"));
+        $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - ".abs($day_offset)." days"));
         $increments = [
             "request_count",
             "request_unique_count",
