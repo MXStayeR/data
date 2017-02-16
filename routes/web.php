@@ -33,6 +33,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/clients/{id}', 'DataClientController@delete');
 
     Route::any('/statistics/requests', 'StatisticsController@requests')->name('request_statistics');
-    Route::get('/statistics/data', 'StatisticsController@data')->name('data_statistics');
+    Route::any('/statistics/data', 'StatisticsController@data')->name('data_statistics');
 
 });

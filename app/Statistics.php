@@ -162,6 +162,58 @@ class Statistics
 
     }
 
+    public static function getData(Request $r)
+    {
+        $day_start = $day_end = date("Y-m-d");
+        $str_where = "";
+        $client = "client_id, ";
+        $str_group = "GROUP BY day, client_id, dmp_id, tax_id";
+
+        // Обрабатываем данные из формы
+        if($r->has('day_start'))
+        {
+            $day_start = date("Y-m-d", strtotime($r->day_start));
+        }
+        if($r->has('day_end'))
+        {
+            $day_end = date("Y-m-d", strtotime($r->day_end));
+        }
+
+        $params = [];
+        $params['day_start'] = $day_start;
+        $params['day_end'] = $day_end;
+
+        if($r->has('client_id') && !empty($r->client_id))
+        {
+            $str_where .= " AND client_id = :client_id ";
+            $params['client_id'] = $r->client_id;
+        }
+
+        if($r->has('dmp_id') && !empty($r->dmp_id))
+        {
+            $str_where .= " AND dmp_id = :dmp_id ";
+            $params['dmp_id'] = $r->dmp_id;
+        }
+
+        // Если выборка за один день иклиент не указан - бьем по всем клиентам
+        if($day_start != $day_end && !($r->has('client_id') && $r->client_id != 0))
+        {
+            $client = "";
+            $str_group = " GROUP BY day, dmp_id, tax_id ";
+        }
+
+        $statement = "SELECT day, $client dmp_id, tax_id, sum(hit) as hit
+                        FROM data.data_stat_day
+                        WHERE day BETWEEN to_days(:day_start) AND to_days(:day_end)
+                        $str_where
+                        $str_group
+                        ORDER BY day DESC;
+        ";
+
+        return DB::select($statement, $params);
+
+    }
+
     
     public static function to_days ($time=0)
     {

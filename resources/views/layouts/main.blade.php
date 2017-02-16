@@ -72,7 +72,7 @@
                             </li>
                             @if(Auth::user()->id == 1)
                                 <li>
-                                    <a href="{{--{{ route('register') }}--}}">Users</a>
+                                    <a href="/">Users</a>
                                 </li>
                             @endif
                         @endif

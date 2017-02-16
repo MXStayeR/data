@@ -1,21 +1,9 @@
-@php
-    $total=[
-        "request_count" => 0,
-        "request_unique_count" => 0,
-        "error_request_count" => 0,
-        "response_count" => 0,
-        "empty_response_count" => 0,
-        "error_response_count" => 0
-    ];
-@endphp
-
-
 @extends('layouts.main')
 
 @section('content')
-<h3>Requests Statistics</h3>
+<h3>Demanded Data Statistics</h3>
 <div class="container report-params">
-    <form action="{{ route('request_statistics') }}" method="POST">
+    <form action="{{ route('data_statistics') }}" method="POST">
         {{ csrf_field() }}
         <div class="col-sm-2 input-group">
             <input type="text"
@@ -55,6 +43,21 @@
 
         </div>
         <div class="col-sm-2 input-group ">
+            <select class="form-control" name="dmp_id">
+                <option value="0">All DMP</option>
+                @foreach(\App\DMP::all() as $dmp)
+                    <option value="{{ $dmp->dmp_id }}"
+                            @if($request->has("dmp_id") && $request->dmp_id == $dmp->dmp_id)
+                                selected
+                            @endif
+                    >
+                        {{ $dmp->name }}
+                    </option>
+                @endforeach
+            </select>
+
+        </div>
+        <div class="col-sm-2 input-group ">
             <button class="btn btn-default" type="submit">Report</button>
         </div>
     </form>
@@ -77,12 +80,9 @@
         <tr>
             <th>Day</th>
             <th>Client</th>
-            <th>Requests</th>
-            <th>Unique Requests</th>
-            <th>Error Requests</th>
-            <th>Responses</th>
-            <th>Empty Responses</th>
-            <th>Error Responses</th>
+            <th>DMP</th>
+            <th>Taxonomy</th>
+            <th>Hits</th>
         </tr>
     </thead>
     <tbody>
@@ -95,37 +95,13 @@
                     @else
                         All Clients
                     @endif
-                <td>{{ $row->request_count }}</td>
-                <td>{{ $row->request_unique_count }}</td>
-                <td>{{ $row->error_request_count }}</td>
-                <td>{{ $row->response_count }}</td>
-                <td>{{ $row->empty_response_count }}</td>
-                <td>{{ $row->error_response_count }}</td>
+                <td>{{ \App\DMP::find($row->dmp_id)->name }}</td>
+                <td>{{ \App\Taxonomy::getDmpTaxonomy($row->dmp_id, $row->tax_id)->text }}</td>
+                <td>{{ $row->hit }}</td>
             </tr>
-
-            @php
-                $total["request_count"] += $row->request_count;
-                $total["request_unique_count"] += $row->request_unique_count;
-                $total["error_request_count"] += $row->error_request_count;
-                $total["response_count"] += $row->response_count;
-                $total["empty_response_count"] += $row->empty_response_count;
-                $total["error_response_count"] += $row->error_response_count;
-            @endphp
-
-
         @endforeach
 
-        <tr>
-            <td></td>
-            <td><b>Total:</b></td>
-            <td><b>{{ $total["request_count"] }}</b></td>
-            {{--<td><b>{{ $total["request_unique_count"] }}</b></td>--}}
-            <td><b> - </b></td>
-            <td><b>{{ $total["error_request_count"] }}</b></td>
-            <td><b>{{ $total["response_count"] }}</b></td>
-            <td><b>{{ $total["empty_response_count"] }}</b></td>
-            <td><b>{{ $total["error_response_count"] }}</b></td>
-        </tr>
+
     </tbody>
 </table>
 
