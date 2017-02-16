@@ -11,11 +11,12 @@ class Statistics
 {
     public static function aggregateData($day_offset = 0)
     {
-        $day = self::to_days() + $day_offset;
+        $sql_day = self::to_days() + $day_offset;
+        $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - $day_offset days"));
 
         foreach(DataClient::all() as $client)
         {
-            $stat = Redis::hGetAll("client::".$client->id."::data::stat::".$day);
+            $stat = Redis::hGetAll("client::".$client->id."::data::stat::".$redis_day);
             if(!empty($stat) && is_array($stat))
             {
                 foreach($stat as $key => $inc)
@@ -31,7 +32,7 @@ class Statistics
                                     ON DUPLICATE KEY 
                                     UPDATE hit = hit + :hit2;";
                     $params = [
-                        "day" => $day,
+                        "day" => $sql_day,
                         "client_id" => $client->id,
                         "dmp_id" => $dmp_id,
                         "tax_id" => $tax_id,
@@ -41,7 +42,7 @@ class Statistics
 
                     if(DB::statement($statement, $params))
                     {
-                        Redis::hIncrBy("client::".$client->id."::data::stat::".$day, $key, ($inc * (-1)));
+                        Redis::hIncrBy("client::".$client->id."::data::stat::".$redis_day, $key, ($inc * (-1)));
                     }
                 }
             }
@@ -52,7 +53,8 @@ class Statistics
 
     public static function aggregateRequests($day_offset = 0)
     {
-        $day = self::to_days() + $day_offset;
+        $sql_day = self::to_days() + $day_offset;
+        $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - $day_offset days"));
         $increments = [
             "request_count",
             "request_unique_count",
@@ -64,7 +66,7 @@ class Statistics
 
         foreach(DataClient::all() as $client)
         {
-            $stat = Redis::hGetAll("client::".$client->id."::stat::".$day);
+            $stat = Redis::hGetAll("client::".$client->id."::stat::".$redis_day);
 
             if(!empty($stat) && is_array($stat))
             {
@@ -81,7 +83,7 @@ class Statistics
 
                 // Create params array
                 $params = [];
-                $params["day"] = $day;
+                $params["day"] = $sql_day;
                 $params["client_id"] = $client->id;
                 foreach($increments as $field)
                 {
@@ -94,7 +96,7 @@ class Statistics
                 {
                     foreach($increments as $field)
                         if(isset($stat[$field]))
-                            Redis::hIncrBy("client::".$client->id."::data::stat::".$day, $field, ($stat[$field] * (-1)));
+                            Redis::hIncrBy("client::".$client->id."::data::stat::".$redis_day, $field, ($stat[$field] * (-1)));
                 }
             }
         }
