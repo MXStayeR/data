@@ -13,7 +13,9 @@
 @extends('layouts.main')
 
 @section('content')
-<h3>Requests Statistics</h3>
+<div class="page-header">
+    <h3>Requests Statistics</h3>
+</div>
 <div class="container report-params">
     <form action="{{ route('request_statistics') }}" method="POST">
         {{ csrf_field() }}

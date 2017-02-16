@@ -53,13 +53,13 @@ class DataClientController extends Controller
         $client->allowedDMPs()->delete();
         Redis::del("client::".$client->id."::dmp::allow");
 
-        $client->name = $r->name;
+        $client->name = $r->has('name') ? $r->name : "";
         if(!empty($r->new_hash))
             $client->token = md5(time());
         $client->status = ($r->status == DataClient::ON) ? DataClient::ON : DataClient::OFF;
-        $client->contact_name = $r->contact_name;
-        $client->contact_email = $r->contact_email;
-        $client->contact_phone = $r->contact_phone;
+        $client->contact_name = $r->has('contact_name') ? $r->contact_name : "";
+        $client->contact_email = $r->has('contact_email') ? $r->contact_email : "";
+        $client->contact_phone = $r->has('contact_phone') ? $r->contact_phone : "";
         $client->security_type = $r->security_type;
 
 
@@ -67,14 +67,17 @@ class DataClientController extends Controller
         if(trim($r->security) != "")
         {
             $rows = explode("\n", $r->security);
+            $unique = [];
             if(count($rows) > 0)
             {
+                foreach($rows as $item)
+                    $unique[trim($item)] = 1;
+
                 $security = [];
                 $class = "App\\Client".ucfirst($client->security_type)."Allow";
-                foreach($rows as $item)
-                {
-                    $security[] = new $class([$client->security_type => trim($item)]);
-                }
+                foreach($unique as $item => $c)
+                    $security[] = new $class([$client->security_type => $item]);
+
                 $client->security()->saveMany($security);
             }
         }

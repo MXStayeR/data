@@ -1,7 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
-<h3>Demanded Data Statistics</h3>
+<div class="page-header">
+    <h3>Demanded Data Statistics</h3>
+</div>
 <div class="container report-params">
     <form action="{{ route('data_statistics') }}" method="POST">
         {{ csrf_field() }}
