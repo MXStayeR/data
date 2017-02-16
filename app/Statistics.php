@@ -153,7 +153,7 @@ class Statistics
         $statement = "SELECT day, $client ";
         foreach($increments as $k => $field)
             $statement .= " sum($field) as $field".( $k < (count($increments)-1) ? ", " : " ");
-        $statement .= "FROM data.data_request_stat_day
+        $statement .= "FROM data_request_stat_day
                         WHERE day BETWEEN to_days(:day_start) AND to_days(:day_end)
                         $str_where
                         $str_group
@@ -205,7 +205,7 @@ class Statistics
         }
 
         $statement = "SELECT day, $client dmp_id, tax_id, sum(hit) as hit
-                        FROM data.data_stat_day
+                        FROM data_stat_day
                         WHERE day BETWEEN to_days(:day_start) AND to_days(:day_end)
                         $str_where
                         $str_group
