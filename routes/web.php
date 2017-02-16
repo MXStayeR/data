@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/clients/{id}', 'DataClientController@update');
     Route::delete('/clients/{id}', 'DataClientController@delete');
 
-    Route::get('/statistics', 'StatisticsController@requests')->name('request_statistics');
+    Route::any('/statistics/requests', 'StatisticsController@requests')->name('request_statistics');
     Route::get('/statistics/data', 'StatisticsController@data')->name('data_statistics');
 
 });

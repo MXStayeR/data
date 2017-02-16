@@ -18,18 +18,8 @@ class StatisticsController extends Controller
     }
     public  function requests(Request $r)
     {
-
-        $day1 = '2017-02-15';
-        $day2 = '2017-02-15';
-        $day2 = '2017-02-15';
-
-        $stat = DataRequestStat::whereBetween( 'day', [Statistics::to_days(), Statistics::to_days()] )
-            ->orderBy('client_id')
-            ->get();
-
-
-        //var_dump($data); exit;
         return view('statistics/requests')
-                ->with('stat', $stat);
+                ->with('stat', Statistics::getRequests($r))
+                ->with('request', $r);
     }
 }

@@ -9,6 +9,7 @@
         <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
         <!-- Bootstrap -->
         <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" >
         <link href="/css/style.css" rel="stylesheet">
 
 
@@ -19,6 +20,19 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        {{--<script--}}
+                {{--src="https://code.jquery.com/jquery-3.1.1.min.js"--}}
+                {{--integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="--}}
+                {{--crossorigin="anonymous"></script>--}}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+        <script src="/js/bootstrap.min.js"></script>
+
+
     </head>
     <body>
     <div class="container">
@@ -101,21 +115,12 @@
         <div class="footer">
 
         </div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     </div>
     {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>--}}
-    <script
-            src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script>
-        $('.datepicker').datepicker({
-            format: 'mm/dd/yyyy',
-            startDate: '-3d'
-        });
-    </script>
+
+
     </body>
 </html>

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 
 class Statistics
@@ -99,6 +100,66 @@ class Statistics
         }
 
         return true;
+    }
+
+
+
+
+    // Interface Statistics methods
+    public static function getRequests(Request $r)
+    {
+        $day_start = $day_end = date("Y-m-d");
+        $str_where = "";
+        $client = "client_id, ";
+        $str_group = "GROUP BY day, client_id";
+        $increments = [
+            "request_count",
+            "request_unique_count",
+            "error_request_count",
+            "response_count",
+            "empty_response_count",
+            "error_response_count",
+        ];
+
+        // Обрабатываем данные из формы
+        if($r->has('day_start'))
+        {
+            $day_start = date("Y-m-d", strtotime($r->day_start));
+        }
+        if($r->has('day_end'))
+        {
+            $day_end = date("Y-m-d", strtotime($r->day_end));
+        }
+
+        $params = [];
+        $params['day_start'] = $day_start;
+        $params['day_end'] = $day_end;
+
+        if($r->has('client_id') && $r->client_id != 0)
+        {
+            $str_where = " AND client_id = :client_id ";
+            $params['client_id'] = $r->client_id;
+        }
+
+        // Если выборка за один день иклиент не указан - бьем по всем клиентам
+        if($day_start != $day_end && !($r->has('client_id') && $r->client_id != 0))
+        {
+            $client = "";
+            $str_group = " GROUP BY day ";
+        }
+
+        $statement = "SELECT day, $client ";
+        foreach($increments as $k => $field)
+            $statement .= " sum($field) as $field".( $k < (count($increments)-1) ? ", " : " ");
+        $statement .= "FROM data.data_request_stat_day
+                        WHERE day BETWEEN to_days(:day_start) AND to_days(:day_end)
+                        $str_where
+                        $str_group
+                        ORDER BY day DESC;
+        ";
+
+        return DB::select($statement, $params);
+
     }
 
     

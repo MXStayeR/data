@@ -6,3 +6,15 @@
 .table-hover>tbody>tr:hover {
     background-color: #bfd4ea;
 }
+
+.input-group[class*=col-] {
+    float: left;
+}
+
+.report-params>form>div {
+    margin-right: 15px;
+}
+
+.report-table {
+    margin-top: 15px;
+}
