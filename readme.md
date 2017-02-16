@@ -1,7 +1,7 @@
 ## App Installation
 1) Be sure, that you have installed composer
 
-3) Create a folder to your App:
+2) Create a folder to your App:
 
      create directory
      
@@ -12,19 +12,21 @@
      Execute `git pull origin master`
      
     
-5) Execute `composer update` and resolve conflicts, if they are taking place
+3) Execute `composer update` and resolve conflicts, if they are taking place
 
-6) Create MySQL DB with user for App, or use existing
+4) Create MySQL DB with user for App, or use existing
 
-7) Choose Redis DB to your App
+5) Choose Redis DB to your App
 
-8) Using .env.example file make your own .env file with actual settings
+6) Using .env.example file make your own .env file with actual settings
 
-9) Execute `/path/to/php artisan migrate` command to create all App tables
+7) Execute `/path/to/php artisan migrate` command to create all App tables
 
-10) Use path `/register` at your browser to create a new user in your App
+8) Use path `/register` at your browser to create a new user in your App
 
-11) Login into App's interface and HANG OOOOOOOOOOONNNNN.....
+9) Add `* * * * * /path/to/php /path/to/project/artisan schedule:run >> /dev/null 2>&1` to your crontab using `crontab -e` to activate App's Scheduler
+
+10) Login into App's interface and HANG OOOOOOOOOOONNNNN.....
 
 P.S.: Take care about RWX problems ;-)
 
