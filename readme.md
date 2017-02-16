@@ -31,38 +31,7 @@
 P.S.: Take care about RWX problems ;-)
 
 
-## App Development Steps
-1) Laravel Installation via Composer
-composer global require "laravel/installer"
-sudo ln -s $HOME/.composer/vendor/bin/laravel /usr/local/bin
-laravel new <project_name>
 
-OR
-
-composer create-project laravel/laravel <project_name> 5.4.*
-
-2) Create and configure Databases (MySQL + Redis)
-3) Configurate: .env, config/app.php, config/database.php
-4) Make Auth module:
-php artisan make:auth   - Makes controllers and views for auth module
-php artisan migrate     - Makes 1-st migration to create users, password_resets and migrations tables
-
-5) composer require predis/predis - Include predis module to make models copies in Redis DB
-6)   Installing an Twitter Bootstrap (only while development!!! all of packages will be installed from Git main Repo):
-* composer require twbs/bootstrap - Include Bootstrap CSS/JS library
-* add to composer.json at "post-update-cmd" next lines:
-    "ln -sf vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/css/",
-    "ln -sf vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css public/css/",
-    "ln -sf vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/js/",
-    "mkdir public/fonts",
-    "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2 public/fonts/",
-    "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff public/fonts/",
-    "cp -f vendor/twbs/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf public/fonts/"
-* composer update
-
-7) Create scheduling:
-Add to your crontab next line:
-* * * * * /path/to/php /path/to/project/artisan schedule:run >> /dev/null 2>&1
 
 
 
