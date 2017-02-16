@@ -3,10 +3,14 @@
 
 3) Create a folder to your App:
 
-    - create directory
-    - Execute `git init`
-    - Execute `git remote add origin https://github.com/MXStayeR/data.git`
-    - Execute `git pull origin master`
+     create directory
+     
+     Execute `git init`
+     
+     Execute `git remote add origin https://github.com/MXStayeR/data.git`
+     
+     Execute `git pull origin master`
+     
     
 5) Execute `composer update` and resolve conflicts, if they are taking place
 
