@@ -1,3 +1,22 @@
+## App Installation
+1) Be sure, that you have installed composer
+3) Create a folder to your App:
+    * create directory
+    * `git init`
+    * `git remote add origin https://github.com/MXStayeR/data.git`
+    * `git pull origin work`
+4) Open composer.json file and take sure, that paths at "post-update-cmd": [] are correct
+5) Execute `composer update` and resolve conflicts, if they take place
+6) Create MySQL DB with user for App, or use existing
+7) Choose Redis DB to your App
+8) Using .env.example file make your own .env file with actual settings
+9) Execute `/path/to/php artisan migrate` command to create all App tables
+10) Use path `/register` at your browser to create a new user in your App
+11) Login into App's interface and HANG OOOOOOOOOOONNNNN.....
+
+P.S.: Take care about RWX problems ;-)
+
+
 ## App Development Steps
 1) Laravel Installation via Composer
 composer global require "laravel/installer"
@@ -32,9 +51,7 @@ Add to your crontab next line:
 * * * * * /path/to/php /path/to/project/artisan schedule:run >> /dev/null 2>&1
 
 
-## App Installation
-1) Configure web-server
-2) 
+
 
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
