@@ -13,10 +13,12 @@ class Statistics
     {
         $sql_day = self::to_days() + $day_offset;
         $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - $day_offset days"));
-
+        echo "\nStart Data Aggregating ... \n";
         foreach(DataClient::all() as $client)
         {
             $stat = Redis::hGetAll("client::".$client->id."::data::stat::".$redis_day);
+            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+            echo "HASH: "."client::".$client->id."::data::stat::".$redis_day."\n";
             if(!empty($stat) && is_array($stat))
             {
                 foreach($stat as $key => $inc)
@@ -38,21 +40,30 @@ class Statistics
                         "tax_id" => $tax_id,
                         "hit" => $inc,
                         "hit2" => $inc,
+
                     ];
 
                     if(DB::statement($statement, $params))
                     {
                         Redis::hIncrBy("client::".$client->id."::data::stat::".$redis_day, $key, ($inc * (-1)));
+                        echo "Ok => Date:".$redis_day."/".$sql_day." Cl:".$client->id." DMP:".$dmp_id." Tax:".$tax_id."\n";
                     }
                 }
             }
+            else
+            {
+                echo "HASH is empty\n";
+            }
         }
+        echo "Ok\n";
 
         return true;
     }
 
     public static function aggregateRequests($day_offset = 0)
     {
+        echo "\nStart Requests Aggregating ... \n";
+
         $sql_day = self::to_days() + $day_offset;
         $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - $day_offset days"));
         $increments = [
@@ -67,7 +78,8 @@ class Statistics
         foreach(DataClient::all() as $client)
         {
             $stat = Redis::hGetAll("client::".$client->id."::stat::".$redis_day);
-
+            echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+            echo "HASH: "."client::".$client->id."::stat::".$redis_day."\n";
             if(!empty($stat) && is_array($stat))
             {
                 // Create statement string
@@ -97,9 +109,19 @@ class Statistics
                     foreach($increments as $field)
                         if(isset($stat[$field]))
                             Redis::hIncrBy("client::".$client->id."::data::stat::".$redis_day, $field, ($stat[$field] * (-1)));
+
+                    echo "Ok => Date:".$redis_day."/".$sql_day." Cl:".$client->id."[";
+                    foreach($increments as $field)
+                        echo $stat[$field]."/";
+                    echo "]\n";
                 }
             }
+            else
+            {
+                echo "HASH is empty\n";
+            }
         }
+        echo "Ok\n";
 
         return true;
     }
