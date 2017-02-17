@@ -17,9 +17,11 @@ class Statistics
         echo "\nStart Data Aggregating ... \n";
         foreach(DataClient::all() as $client)
         {
-            $stat = Redis::hGetAll("client::".$client->id."::data::stat::".$redis_day);
+
+            $stat = Redis::hGetAll(Key::dataHash($client->id,$redis_day));
             echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
-            echo "HASH: "."client::".$client->id."::data::stat::".$redis_day."\n";
+            echo "HASH: ".Key::dataHash($client->id,$redis_day)."\n";
+            
             if(!empty($stat) && is_array($stat))
             {
                 foreach($stat as $key => $inc)
@@ -46,7 +48,7 @@ class Statistics
 
                     if(DB::statement($statement, $params))
                     {
-                        Redis::hIncrBy("client::".$client->id."::data::stat::".$redis_day, $key, ($inc * (-1)));
+                        Redis::hIncrBy(Key::dataHash($client->id,$redis_day), $key, ($inc * (-1)));
                         echo "Ok => Date:".$redis_day."/".$sql_day." Cl:".$client->id." DMP:".$dmp_id." Tax:".$tax_id."\n";
                     }
                 }
@@ -78,9 +80,10 @@ class Statistics
 
         foreach(DataClient::all() as $client)
         {
-            $stat = Redis::hGetAll("client::".$client->id."::stat::".$redis_day);
+
+            $stat = Redis::hGetAll(Key::requestsHash($client->id,$redis_day));
             echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
-            echo "HASH: "."client::".$client->id."::stat::".$redis_day."\n";
+            echo "HASH: ".Key::requestsHash($client->id,$redis_day)."\n";
             if(!empty($stat) && is_array($stat))
             {
                 // Create statement string
@@ -109,7 +112,7 @@ class Statistics
                 {
                     foreach($increments as $field)
                         if(isset($stat[$field]))
-                            Redis::hIncrBy("client::".$client->id."::data::stat::".$redis_day, $field, ($stat[$field] * (-1)));
+                            Redis::hIncrBy(Key::requestsHash($client->id,$redis_day), $field, ($stat[$field] * (-1)));
 
                     echo "Ok => Date:".$redis_day."/".$sql_day." Cl:".$client->id." ";
                     foreach($increments as $field)
