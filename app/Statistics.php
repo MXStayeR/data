@@ -111,10 +111,11 @@ class Statistics
                         if(isset($stat[$field]))
                             Redis::hIncrBy("client::".$client->id."::data::stat::".$redis_day, $field, ($stat[$field] * (-1)));
 
-                    echo "Ok => Date:".$redis_day."/".$sql_day." Cl:".$client->id."[";
+                    echo "Ok => Date:".$redis_day."/".$sql_day." Cl:".$client->id." ";
                     foreach($increments as $field)
-                        echo $stat[$field]."/";
-                    echo "]\n";
+                        if(isset($stat[$field]))
+                            echo "[".$field." = ".$stat[$field]."] ";
+                    echo "\n";
                 }
             }
             else
