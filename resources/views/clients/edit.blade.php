@@ -118,4 +118,30 @@
         <button type="submit" class="btn btn-success">Save</button>
     </div>
 </form>
+
+{{--<div class="page-header col-sm-offset-1">--}}
+    {{--<h3>Pixel</h3>--}}
+    {{--<a href="{{route('client_pixel', ['id' => $client->id])}}" target="_blank">Test call</a>--}}
+{{--</div>--}}
+{{--<form class="form-horizontal">--}}
+{{--<div class="form-group">--}}
+    {{--<label class="col-sm-2 control-label">Script</label>--}}
+    {{--<div class="col-sm-8">--}}
+        {{--<textarea rows="8" cols="90">{{ \App\Pixel::makeBody($client) }}</textarea>--}}
+    {{--</div>--}}
+{{--</div>--}}
+{{--<div class="form-group">--}}
+    {{--<label class="col-sm-2 control-label">Zero Pixel</label>--}}
+    {{--<div class="col-sm-8">--}}
+        {{--<textarea rows="8" cols="90">{{ \App\Pixel::makeZeroPixel($client) }}</textarea>--}}
+    {{--</div>--}}
+{{--</div>--}}
+{{--<div class="form-group">--}}
+    {{--<label class="col-sm-2 control-label">URL</label>--}}
+    {{--<div class="col-sm-8">--}}
+        {{--<input type="text" class="form-control" value="{{ \App\Pixel::makeURL($client) }}">--}}
+    {{--</div>--}}
+{{--</div>--}}
+{{--</form>--}}
+
 @endsection

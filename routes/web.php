@@ -24,6 +24,7 @@ Auth::routes();
 //Route::get('/test', 'HomeController@test');
 Route::get('/home', 'HomeController@index');
 
+
 Route::group(['middleware' => 'auth'], function () {
 
     /* Data Client Model */
@@ -35,4 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('/statistics/requests', 'StatisticsController@requests')->name('request_statistics');
     Route::any('/statistics/data', 'StatisticsController@data')->name('data_statistics');
 
+//    Route::get('/client_pixel/{id?}', function($id){
+//        return view('client_pixel')->with('id', $id);
+//    })->name('client_pixel');
+//
+//    Route::get("/pixel/{token?}", 'PixelController@index')->name('pixel');
+
 });
+
