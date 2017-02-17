@@ -17,13 +17,13 @@ class ClientReferrerAllow extends Model
 
     public function save(array $options = [])
     {
-        Redis::sAdd("client::".$this->client_id."::referrer::allow", $this->referrer);
+        Redis::sAdd(Key::clientSecurityItems($this->client_id, 'referrer'), $this->referrer);
         return parent::save($options);
     }
 
     public function delete()
     {
-        Redis::sRem("client::".$this->client_id."::referrer::allow", $this->referrer);
+        Redis::sRem(Key::clientSecurityItems($this->client_id, 'referrer'), $this->referrer);
         return parent::delete();
     }
 }

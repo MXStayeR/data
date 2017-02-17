@@ -17,13 +17,13 @@ class ClientDMPAllow extends Model
 
     public function save(array $options = [])
     {
-        Redis::sAdd("client::".$this->client_id."::dmp::allow", $this->dmp_id);
+        Redis::sAdd(Key::clientAllowedDMPs($this->client_id), $this->dmp_id);
         return parent::save($options);
     }
 
     public function delete()
     {
-        Redis::sRem("client::".$this->client_id."::dmp::allow", $this->dmp_id);
+        Redis::sRem(Key::clientAllowedDMPs($this->client_id), $this->dmp_id);
         return parent::delete();
     }
 }

@@ -3,8 +3,23 @@
 @section('content')
 
 <div class="page-header col-sm-offset-1">
-    <h1>Settings of "{{$client->name}}"</h1>
+    @if(empty($client->name))
+        <h1>Creating of a new client</h1>
+    @else
+        <h1>Settings of "{{$client->name}}"</h1>
+    @endif
 </div>
+
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <form method="POST" action="/clients/{{$client->id}}" class="form-horizontal">
     <div class="row">
     <div class="col-md-6 col-sm-12">

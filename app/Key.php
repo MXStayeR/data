@@ -34,4 +34,20 @@ class Key
         return "client::$client_id::data::stat::$redis_day";
     }
 
+    public static function client($client_token)
+    {
+        return "client::$client_token";
+    }
+
+    public static function clientSecurityItems($client_id, $security_type)
+    {
+        return "client::".$client_id."::".$security_type."::allow";
+    }
+
+    public static function clientAllowedDMPs($client_id)
+    {
+        return "client::".$client_id."::dmp::allow";
+    }
+
+
 }

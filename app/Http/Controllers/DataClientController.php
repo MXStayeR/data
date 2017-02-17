@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\ClientDMPAllow;
 use Illuminate\Http\Request;
-use App\DataClient;
-use App\DMP;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
+use App\DataClient;
+use App\ClientDMPAllow;
+use App\DMP;
+use App\Key;
 
 class DataClientController extends Controller
 {
@@ -43,15 +45,37 @@ class DataClientController extends Controller
 
     public function update(Request $r)
     {
-        $client = DataClient::find($r->id);
+        
+        $client = DataClient::findOrFail($r->id);
+
+        $fields = [
+            'name' => 'required|max:128',
+            'token' => 'required|max:64',
+            'contact_name' => 'nullable|max:255',
+            'contact_email' => 'nullable|email|max:255',
+            'contact_phone' => 'nullable|max:32',
+        ];
+        $messages = [
+            //'required' => 'The :attribute field is required.',
+        ];
+        $validator = Validator::make($r->all(), $fields, $messages);
+        if ($validator->fails())
+        {
+            return redirect('clients/'.$client->id)
+                    ->withErrors($validator);
+        }
+        
+        
+        
+
 
         // Remove current security relationed settings
         $client->security()->delete();
-        Redis::del("client::".$client->id."::".$client->security_type."::allow");
+        Redis::del(Key::clientSecurityItems($client->id, $client->security_type));
 
         // Remove current allowed DMP relationed settings
         $client->allowedDMPs()->delete();
-        Redis::del("client::".$client->id."::dmp::allow");
+        Redis::del(Key::clientAllowedDMPs($client->id));
 
         $client->name = $r->has('name') ? $r->name : "";
         if(!empty($r->new_hash))
@@ -100,7 +124,7 @@ class DataClientController extends Controller
 
     public function delete(Request $r)
     {
-        $client = DataClient::find($r->id);
+        $client = DataClient::findOrFail($r->id);
         $client->security()->delete();
         $client->allowedDMPs()->delete();
         $client->delete();
