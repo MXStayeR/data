@@ -1,17 +1,21 @@
+## Requirements
+- Git
+- PHP >= 5.6
+- PHP extensions: php-xml, php-mbstring, php-mysql 
+- Composer
+- Redis
+- MySQL DB
+
 ## App Installation
 1) Be sure, that you have installed composer
 
-2) Create a folder to your App:
-
-     create directory
+2) Create App's directory:
+- `mkdir /path/to/project`
+- `cd /path/to/project`
+- `git init`
+- `git remote add {remote_repository_name} {remote_repository_link}`
+- `git pull origin master`
      
-     Execute `git init`
-     
-     Execute `git remote add origin https://github.com/MXStayeR/data.git`
-     
-     Execute `git pull origin master`
-     
-    
 3) Execute `composer update` and resolve conflicts, if they are taking place
 
 4) Create MySQL DB with user for App, or use existing
@@ -20,7 +24,7 @@
 
 6) Using .env.example file make your own .env file with actual settings
 
-7) Execute `/path/to/php artisan migrate` command to create all App tables
+7) Execute `/path/to/php artisan migrate` command to create all required SQL-tables in Database
 
 8) Use path `/register` at your browser to create a new user in your App
 

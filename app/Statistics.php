@@ -272,10 +272,5 @@ class Statistics
         }
 
         return date("Y-m-d", $time);
-
-
-
-
-
     }
 }
