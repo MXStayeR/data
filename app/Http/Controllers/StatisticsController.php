@@ -12,16 +12,16 @@ class StatisticsController extends Controller
     {
         return redirect("/");
     }
-    public  function data(Request $r)
+    public  function data(Request $request)
     {
         return view('statistics/data')
-            ->with('stat', Statistics::getData($r))
-            ->with('request', $r);
+            ->with('stat', Statistics::getData($request))
+            ->with('request', $request);
     }
-    public  function requests(Request $r)
+    public  function requests(Request $request)
     {
         return view('statistics/requests')
-                ->with('stat', Statistics::getRequests($r))
-                ->with('request', $r);
+                ->with('stat', Statistics::getRequests($request))
+                ->with('request', $request);
     }
 }

@@ -12,7 +12,7 @@
             <input type="text"
                    class="datepicker form-control"
                    name="day_start"
-                   placeholder="From:"
+                   placeholder="From: {{date("Y-m-d", strtotime("-1 month"))}}"
                    value="@if($request->has("day_start")) {{ $request->day_start }} @endif"
             >
             <div class="input-group-addon">
@@ -23,7 +23,7 @@
             <input type="text"
                    class="datepicker form-control"
                    name="day_end"
-                   placeholder="To:"
+                   placeholder="To: {{date("Y-m-d")}}"
                    value="@if($request->has("day_end")) {{ $request->day_end }} @endif"
             >
             <div class="input-group-addon">
@@ -55,7 +55,7 @@
     $( function() {
         var opts = {
             dateFormat: "yy-mm-dd",
-            firstDay: 1
+            firstDay: 1,
         };
 
 
@@ -63,13 +63,13 @@
     } );
 </script>
 
-<table class="table statistics table-hover report-table">
+<table class="table statistics table-hover table-bordered report-table">
     <thead>
         <tr>
-            <th rowspan="2">Day</th>
-            <th rowspan="2">Client</th>
+            <th rowspan="2" style="vertical-align: middle;">Day</th>
+            <th rowspan="2" style="vertical-align: middle;">Client</th>
             <th colspan="3">Requests</th>
-            <th colspan="5">Responses</th>
+            <th colspan="4">Responses</th>
         </tr>
         <tr>
             <th>Total</th>
@@ -77,7 +77,6 @@
             <th>Error</th>
 
             <th>Total</th>
-            <th>Unique</th>
             <th>Filled</th>
             <th>Unique Filled</th>
             <th>Error</th>
@@ -97,7 +96,6 @@
                 <td>{{ $row->request_unique_count }}</td>
                 <td>{{ $row->error_request_count }}</td>
                 <td>{{ $row->response_count }}</td>
-                <td>{{ $row->unique_response_count }}</td>
                 <td>{{ $row->filled_response_count }}</td>
                 <td>{{ $row->unique_filled_response_count }}</td>
                 <td>{{ $row->error_response_count }}</td>
@@ -120,7 +118,6 @@
             <td><b> - </b></td>
             <td><b>{{ $total["error_request_count"] }}</b></td>
             <td><b>{{ $total["response_count"] }}</b></td>
-            <td><b> - </b></td>
             <td><b>{{ $total["filled_response_count"] }}</b></td>
             <td><b> - </b></td>
             <td><b>{{ $total["error_response_count"] }}</b></td>

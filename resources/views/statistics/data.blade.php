@@ -11,7 +11,7 @@
             <input type="text"
                    class="datepicker form-control"
                    name="day_start"
-                   placeholder="From:"
+                   placeholder="From: {{date("Y-m-d", strtotime("-1 month"))}}"
                    value="@if($request->has("day_start")) {{ $request->day_start }} @endif"
             >
             <div class="input-group-addon">
@@ -22,7 +22,7 @@
             <input type="text"
                    class="datepicker form-control"
                    name="day_end"
-                   placeholder="To:"
+                   placeholder="To: {{date("Y-m-d")}}"
                    value="@if($request->has("day_end")) {{ $request->day_end }} @endif"
             >
             <div class="input-group-addon">

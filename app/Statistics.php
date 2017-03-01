@@ -127,21 +127,14 @@ class Statistics
     // Interface Statistics methods
     public static function getRequests(Request $r)
     {
-        $day_start = $day_end = date("Y-m-d");
         $str_where = "";
         $client = "client_id, ";
         $str_group = "GROUP BY day, client_id";
         $increments = array_keys(DataRequestStat::$incrementers);
 
         // Обрабатываем данные из формы
-        if($r->has('day_start'))
-        {
-            $day_start = date("Y-m-d", strtotime($r->day_start));
-        }
-        if($r->has('day_end'))
-        {
-            $day_end = date("Y-m-d", strtotime($r->day_end));
-        }
+        $day_start = $r->has('day_start') ? date("Y-m-d", strtotime($r->day_start)) : date("Y-m-d", strtotime("-1 month"));
+        $day_end = $r->has('day_end') ? date("Y-m-d", strtotime($r->day_end)) : date("Y-m-d");
 
         $params = [];
         $params['day_start'] = $day_start;
@@ -176,20 +169,13 @@ class Statistics
 
     public static function getData(Request $r)
     {
-        $day_start = $day_end = date("Y-m-d");
         $str_where = "";
         $client = "client_id, ";
         $str_group = "GROUP BY day, client_id, dmp_id, tax_id";
 
         // Обрабатываем данные из формы
-        if($r->has('day_start'))
-        {
-            $day_start = date("Y-m-d", strtotime($r->day_start));
-        }
-        if($r->has('day_end'))
-        {
-            $day_end = date("Y-m-d", strtotime($r->day_end));
-        }
+        $day_start = $r->has('day_start') ? date("Y-m-d", strtotime($r->day_start)) : date("Y-m-d", strtotime("-1 month"));
+        $day_end = $r->has('day_end') ? date("Y-m-d", strtotime($r->day_end)) : date("Y-m-d");
 
         $params = [];
         $params['day_start'] = $day_start;
