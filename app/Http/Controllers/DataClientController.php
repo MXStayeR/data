@@ -54,6 +54,11 @@ class DataClientController extends Controller
             'contact_name' => 'nullable|max:255',
             'contact_email' => 'nullable|email|max:255',
             'contact_phone' => 'nullable|max:32',
+
+            'limit_request' => 'nullable|integer',
+            'limit_unique_request' => 'nullable|integer',
+            'limit_response' => 'nullable|integer',
+            'limit_unique_response' => 'nullable|integer',
         ];
         $messages = [
             //'required' => 'The :attribute field is required.',
@@ -85,6 +90,12 @@ class DataClientController extends Controller
         $client->contact_email = $r->has('contact_email') ? $r->contact_email : "";
         $client->contact_phone = $r->has('contact_phone') ? $r->contact_phone : "";
         $client->security_type = $r->security_type;
+
+        // Limits
+        $client->limit_request = $r->has('limit_request') ? $r->limit_request : 0;
+        $client->limit_unique_request = $r->has('limit_unique_request') ? $r->limit_unique_request : 0;
+        $client->limit_response = $r->has('limit_response') ? $r->limit_response : 0;
+        $client->limit_unique_response = $r->has('limit_unique_response') ? $r->limit_unique_response : 0;
 
 
         // Security elements

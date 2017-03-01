@@ -42,17 +42,14 @@
                 <input type="text" name="token" class="form-control" value="{{$client->token}}">
             </div>
         </div>
-
         <div class="form-group">
             <label class="col-sm-4 control-label">Status</label>
-            <div class="col-sm-8 checkbox">
+            <div class="col-sm-8">
                 <label>
-                <input type="checkbox" name="status" value="{{\App\DataClient::ON}}" @if($client->status == \App\DataClient::ON) checked @endif>
-                @if($client->status == \App\DataClient::ON)
-                    <b style="color:green;">active</b>
-                @else
-                    <b style="color:red;">disabled</b>
-                @endif
+                <select name="status" class="form-control">
+                    <option   value="{{\App\DataClient::OFF}}" @if($client->status == \App\DataClient::OFF) selected @endif>Disabled</option>
+                    <option  value="{{\App\DataClient::ON}}" @if($client->status == \App\DataClient::ON) selected @endif>Enabled</option>
+                </select>
                 </label>
             </div>
         </div>
@@ -96,6 +93,37 @@
                 <textarea name="security" class="form-control" rows="{{count($security) > 5 ? count($security) : 5}}">@foreach($security as $row){{"\r".$row->$type}}@endforeach</textarea>
             </div>
         </div>
+
+        <div class="page-header col-sm-offset-1">
+            <h3>Limits</h3>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Requests</label>
+            <div class="col-sm-8">
+                <input type="text" name="limit_request" class="form-control" value="{{$client->limit_request}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Unique Requests</label>
+            <div class="col-sm-8">
+                <input type="text" name="limit_unique_request" class="form-control" value="{{$client->limit_unique_request}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Responses</label>
+            <div class="col-sm-8">
+                <input type="text" name="limit_response" class="form-control" value="{{$client->limit_response}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Unique Responses</label>
+            <div class="col-sm-8">
+                <input type="text" name="limit_unique_response" class="form-control" value="{{$client->limit_unique_response}}">
+            </div>
+        </div>
+
+
+
     </div>
     <div class="col-md-5 col-sm-12 col-md-offset-1">
         <div class="page-header col-sm-offset-1">
@@ -118,30 +146,5 @@
         <button type="submit" class="btn btn-success">Save</button>
     </div>
 </form>
-
-{{--<div class="page-header col-sm-offset-1">--}}
-    {{--<h3>Pixel</h3>--}}
-    {{--<a href="{{route('client_pixel', ['id' => $client->id])}}" target="_blank">Test call</a>--}}
-{{--</div>--}}
-{{--<form class="form-horizontal">--}}
-{{--<div class="form-group">--}}
-    {{--<label class="col-sm-2 control-label">Script</label>--}}
-    {{--<div class="col-sm-8">--}}
-        {{--<textarea rows="8" cols="90">{{ \App\Pixel::makeBody($client) }}</textarea>--}}
-    {{--</div>--}}
-{{--</div>--}}
-{{--<div class="form-group">--}}
-    {{--<label class="col-sm-2 control-label">Zero Pixel</label>--}}
-    {{--<div class="col-sm-8">--}}
-        {{--<textarea rows="8" cols="90">{{ \App\Pixel::makeZeroPixel($client) }}</textarea>--}}
-    {{--</div>--}}
-{{--</div>--}}
-{{--<div class="form-group">--}}
-    {{--<label class="col-sm-2 control-label">URL</label>--}}
-    {{--<div class="col-sm-8">--}}
-        {{--<input type="text" class="form-control" value="{{ \App\Pixel::makeURL($client) }}">--}}
-    {{--</div>--}}
-{{--</div>--}}
-{{--</form>--}}
 
 @endsection

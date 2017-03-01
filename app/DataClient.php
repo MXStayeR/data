@@ -24,7 +24,7 @@ class DataClient extends Model
     {
         return $this->hasMany("App\\ClientDMPAllow", 'client_id', 'id');
     }
-    
+
 
     // Redis implementation
     public function save(array $options = [])
@@ -35,6 +35,11 @@ class DataClient extends Model
             'status' => $this->status,
             'token' => $this->token,
             'security' => $this->security_type,
+
+            'limit_request' => $this->limit_request,
+            'limit_unique_request' => $this->limit_unique_request,
+            'limit_response' => $this->limit_response,
+            'limit_unique_response' => $this->limit_unique_response,
         ]);
 
         return parent::save($options);

@@ -41,7 +41,7 @@
                 </a>
             </td>
             <td>
-                <form method="POST" action="/clients/{{$client->id}}">
+                <form method="POST" action="/clients/{{$client->id}}" onsubmit="return confirm('Are you sure to remove \'{{$client->name}}\' client?');">
                     {{csrf_field()}}
                     <input type="hidden" name="_method" value="DELETE">
                     <button type="submit" class="btn btn-danger">Delete</button>
