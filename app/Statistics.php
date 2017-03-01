@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 class Statistics
 {
+
+
     public static function aggregateData($day_offset = 0)
     {
         $sql_day = self::to_days() + $day_offset;
@@ -35,7 +37,7 @@ class Statistics
                                         tax_id = :tax_id,
                                         hit = :hit
                                     ON DUPLICATE KEY 
-                                    UPDATE hit = hit + :hit2;";
+                                    UPDATE hit = :hit2;";
                     $params = [
                         "day" => $sql_day,
                         "client_id" => $client->id,
@@ -48,7 +50,6 @@ class Statistics
 
                     if(DB::statement($statement, $params))
                     {
-                        Redis::hIncrBy(Key::dataHash($client->id,$redis_day), $key, ($inc * (-1)));
                         echo "Ok => Date:".$redis_day."/".$sql_day." Cl:".$client->id." DMP:".$dmp_id." Tax:".$tax_id."\n";
                     }
                 }
@@ -69,14 +70,7 @@ class Statistics
 
         $sql_day = self::to_days() + $day_offset;
         $redis_day = (empty($day_offset)) ? date("Ymd") : date("Ymd", strtotime(" - ".abs($day_offset)." days"));
-        $increments = [
-            "request_count",
-            "request_unique_count",
-            "error_request_count",
-            "response_count",
-            "empty_response_count",
-            "error_response_count",
-        ];
+        $increments = array_keys(DataRequestStat::$incrementers);
 
         foreach(DataClient::all() as $client)
         {
@@ -95,7 +89,7 @@ class Statistics
 
                 $statement .= "ON DUPLICATE KEY UPDATE ";
                 foreach($increments as $k => $field)
-                    $statement .= " $field = $field + :$field"."U".( $k < (count($increments)-1) ? ", " : ";");
+                    $statement .= " $field = :$field"."U".( $k < (count($increments)-1) ? ", " : ";");
 
                 // Create params array
                 $params = [];
@@ -110,10 +104,6 @@ class Statistics
                 // Execute statement
                 if(DB::statement($statement, $params))
                 {
-                    foreach($increments as $field)
-                        if(isset($stat[$field]))
-                            Redis::hIncrBy(Key::requestsHash($client->id,$redis_day), $field, ($stat[$field] * (-1)));
-
                     echo "Ok => Date:".$redis_day."/".$sql_day." Cl:".$client->id." ";
                     foreach($increments as $field)
                         if(isset($stat[$field]))
@@ -141,14 +131,7 @@ class Statistics
         $str_where = "";
         $client = "client_id, ";
         $str_group = "GROUP BY day, client_id";
-        $increments = [
-            "request_count",
-            "request_unique_count",
-            "error_request_count",
-            "response_count",
-            "empty_response_count",
-            "error_response_count",
-        ];
+        $increments = array_keys(DataRequestStat::$incrementers);
 
         // Обрабатываем данные из формы
         if($r->has('day_start'))

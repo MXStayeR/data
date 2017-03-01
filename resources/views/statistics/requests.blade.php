@@ -1,15 +1,4 @@
-@php
-    $total=[
-        "request_count" => 0,
-        "request_unique_count" => 0,
-        "error_request_count" => 0,
-        "response_count" => 0,
-        "empty_response_count" => 0,
-        "error_response_count" => 0
-    ];
-@endphp
-
-
+@php $total = \App\DataRequestStat::$incrementers; @endphp
 @extends('layouts.main')
 
 @section('content')
@@ -77,14 +66,21 @@
 <table class="table statistics table-hover report-table">
     <thead>
         <tr>
-            <th>Day</th>
-            <th>Client</th>
-            <th>Requests</th>
-            <th>Unique Requests</th>
-            <th>Error Requests</th>
-            <th>Responses</th>
-            <th>Empty Responses</th>
-            <th>Error Responses</th>
+            <th rowspan="2">Day</th>
+            <th rowspan="2">Client</th>
+            <th colspan="3">Requests</th>
+            <th colspan="5">Responses</th>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <th>Unique</th>
+            <th>Error</th>
+
+            <th>Total</th>
+            <th>Unique</th>
+            <th>Filled</th>
+            <th>Unique Filled</th>
+            <th>Error</th>
         </tr>
     </thead>
     <tbody>
@@ -101,17 +97,17 @@
                 <td>{{ $row->request_unique_count }}</td>
                 <td>{{ $row->error_request_count }}</td>
                 <td>{{ $row->response_count }}</td>
-                <td>{{ $row->empty_response_count }}</td>
+                <td>{{ $row->unique_response_count }}</td>
+                <td>{{ $row->filled_response_count }}</td>
+                <td>{{ $row->unique_filled_response_count }}</td>
                 <td>{{ $row->error_response_count }}</td>
             </tr>
 
             @php
-                $total["request_count"] += $row->request_count;
-                $total["request_unique_count"] += $row->request_unique_count;
-                $total["error_request_count"] += $row->error_request_count;
-                $total["response_count"] += $row->response_count;
-                $total["empty_response_count"] += $row->empty_response_count;
-                $total["error_response_count"] += $row->error_response_count;
+                foreach(\App\DataRequestStat::$incrementers as $inc => $i)
+                {
+                    $total[$inc] += $row->$inc;
+                }
             @endphp
 
 
@@ -121,11 +117,12 @@
             <td></td>
             <td><b>Total:</b></td>
             <td><b>{{ $total["request_count"] }}</b></td>
-            {{--<td><b>{{ $total["request_unique_count"] }}</b></td>--}}
             <td><b> - </b></td>
             <td><b>{{ $total["error_request_count"] }}</b></td>
             <td><b>{{ $total["response_count"] }}</b></td>
-            <td><b>{{ $total["empty_response_count"] }}</b></td>
+            <td><b> - </b></td>
+            <td><b>{{ $total["filled_response_count"] }}</b></td>
+            <td><b> - </b></td>
             <td><b>{{ $total["error_response_count"] }}</b></td>
         </tr>
     </tbody>
