@@ -37,7 +37,7 @@ P.S.: Take care about RWX problems ;-)
 
 ##ER-scheme
 <p align="center">
-  <img src="/master/public/img/DMPSeller.png?raw=true">  
+  <img src="/public/img/DMPSeller.png?raw=true">  
 </p>
 
 
