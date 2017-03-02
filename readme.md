@@ -35,14 +35,14 @@
 P.S.: Take care about RWX problems ;-)
 
 
-##ER-scheme
+## ER-scheme
 <p align="center">
   <img src="/public/img/DMPSeller.png?raw=true">  
 </p>
 
 
 
-
+<br/>
 
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
